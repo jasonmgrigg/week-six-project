@@ -1,25 +1,22 @@
 <!doctype html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <title>Gabble Login</title>
   </head>
     <body>
-      <h1>GABBLE!!!</h1>
-      <h2>Log In</h2>
+      <h1>Gabble!!!!!!</h1>
+      <h2>Please log in below:</h2>
       <form action="/" method="post">
         <fieldset>
           <label for="username">Username</label>
           <input type="text" name="username" placeholder="username">
           <label for="password">Password</label>
-          <input type="text" name="password" placeholder="password">
+          <input type="password" name="password" placeholder="password">
           <div class="form__submit-button">
               <input type="submit">
           </div>
         </fieldset>
       </form>
-      <ul>
-        {{#users}}
-        <li>{{username}}</li>
-        {{/users}}
-      </ul>
     </body>
 </html>

@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+  <head>
+  </head>
+    <body>
+      <h1>GABBLE!!!</h1>
+      <h3>Use the below form to create a new entry:</h3>
+      <form class="" action="/entries" method="post">
+        <input type="text" name="entry" value="" placeholder="Gabble Entry">
+        <input type="text" name="userID" value="" placeholder="userID">
+
+
+        <button type="submit" name="button">Create User</button>
+      </form>
+      <h3>Gabbles</h3>
+      <ul>
+        {{#entries}}
+          <li>{{username}}</li>
+        {{/entries}}
+      </ul>
+    </body>
+</html>
