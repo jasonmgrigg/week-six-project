@@ -1,13 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const models = require("./models");
+const session = require('express-session');
+const parseurl = require('parseurl');
+
+
 
 //Start of first index page rendering
-router.get('/', function(req, res) {
-  models.users.findAll().then(function(users) {
-  res.render('index', {users: users})
-  })
-})
+// router.get('/', function(req, res) {
+//   models.users.findAll().then(function(users) {
+//   res.render('index', {users: users})
+//   })
+// })
 //End of first index page rendering
 
 
@@ -23,70 +27,84 @@ router.get('/login-create', function(req, res) {
 
 
 router.post('/users', function(req, res) {
-  const username = models.users.build
-  const password = models.users.build ({
+  var user = models.users.build ({
     username: req.body.username,
     password: req.body.password
   })
-
-  password.save();
-  res.redirect('/')
+  req.session.username = req.body.username;
+  let username = req.session.username
+  console.log("Your Session Username is " + username);
+  user.save();
+  res.render('welcome', {username:username})
+  // res.redirect('/')
 })
 //End of username and password creation
 
 
 
 //Start of username authentication section
-//DOES NOT WORK YET
-function authenticate(req, username, password){
-  var authenticatedUser = models.users.find(function (users) {
-    if (username === models.users.username && password === models.users.password) {
-      req.session.authenticated = true;
-    } else {
-      return false
-    }
-  });
-  console.log(req.session);
-  return req.session;
-}
-
-router.get('/login', function(req, res) {
+router.get('/', function(req, res) {
   res.render('login')
-})
+});
 
 router.post('/', function(req, res){
-var username = req.body.username;
-var password = req.body.password;
-console.log("Authenticate router.post working")
-
-authenticate(req, username, password);
-if (req.session && req.session.authenticated){
-  res.render('loggedin', {users: users});
-} else {
-  res.redirect('/');
-}
+  var username = req.body.username;
+  var password = req.body.password;
+  models.users.find({
+    where: {
+      username: username,
+      password: password
+    }
+  }).then(function(user){
+    if(user){
+      req.session.username = req.body.username;
+      req.session.userid = user.dataValues.id;
+      let username = req.session.username;
+      let userid = req.session.userid;
+      console.log("ID is " + req.session.userid)
+      console.log("username is " + username)
+      res.render('gabble-create', {username:username})
+    }
+    else{
+      res.render('login-create');
+    }
+  })
+  // console.log("Your username is " + username);
 })
 //End of username authentication
-//DOES NOT WORK YET
 
 
 
 //Start of gabble entry section
 router.get('/gabble-create', function(req, res) {
-  models.users.findAll().then(function(entries) {
-    res.render('gabble-create', {entries: entries})
+  models.users.findAll().then(function(entry) {
+    res.render('gabble-create', {entry: entry})
+    console.log("Gabble Entry")
   })
 })
 
 
 
-router.post('/entries', function(req, res) {
-  const entry = models.entries.build ({
-    entry: req.body.entry
-  })
+  router.post('/entries', function(req, res){
+    const entryUser = req.session.username
+    const userid = req.session.userid
+    console.log("Entries userID is " + userid)
+    const username = req.session.username
+    const entry = models.entries.build({
+      entry: req.body.entry,
+      userId: req.session.userid
+    })
 
-  entry.save();
-  res.redirect('/')
-})
+    // const entry = req.body.entry;
+    // console.log(req.session.username);
+    // models.entries.find({
+    //   where: {
+    //     entry: entry
+
+    entry.save();
+    res.render('gabble-create', {username:username})
+
+  })
+//Gabble-Create end
 
 module.exports = router;

@@ -14,31 +14,16 @@ app.engine('mustache', mustacheExpress());
 app.set('views', './views');
 app.set('view engine', 'mustache');
 
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(routes);
 app.use(express.static('./public'));
-app.use(session({
-secret: 'keyboard cat',
-resave: false,
-saveUninitialized: true
-}));
 
-app.use(function (req, res, next) {
-var views = req.session.views;
-
-if (!views) {
-  views = req.session.views = {};
-}
-
-// get the url pathname
-var pathname = parseurl(req).pathname;
-
-// count the views
-views[pathname] = (views[pathname] || 0) + 1
-
-next();
-})
 
 
 app.listen(3000, function(){

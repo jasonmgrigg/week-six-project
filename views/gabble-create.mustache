@@ -1,21 +1,35 @@
 <!doctype html>
 <html>
   <head>
+    <header>
+      <h1>Your username is {{username}}.</h1>
+    <nav>
+      <ul>
+        <li class="nav-item1">
+          <a href="./">Log In</a></li>
+        <li class="nav-item2">
+          <a href="./login-create">Create Login</a></li>
+        <li class="nav-item3">
+          <a href="./gabble-create">Create Gabble</a></li>
+      </ul>
+    </nav>
+  </header>
   </head>
     <body>
       <h1>GABBLE!!!</h1>
+      <h1>Welcome {{username}}<h1>
       <h3>Use the below form to create a new entry:</h3>
       <form class="" action="/entries" method="post">
         <input type="text" name="entry" value="" placeholder="Gabble Entry">
-        <input type="text" name="userID" value="" placeholder="userID">
+        <input type="text" name={{user}} value="" placeholder={{user}}>
 
 
-        <button type="submit" name="button">Create User</button>
+        <button type="submit" name="button">Submit Entry</button>
       </form>
       <h3>Gabbles</h3>
       <ul>
         {{#entries}}
-          <li>{{username}}</li>
+          <li>{{entry}}</li>
         {{/entries}}
       </ul>
     </body>
