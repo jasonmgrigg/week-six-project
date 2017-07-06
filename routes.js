@@ -83,26 +83,25 @@ router.get('/gabble-create', function(req, res) {
   })
 })
 
-
-
   router.post('/entries', function(req, res){
-    const entryUser = req.session.username
     const userid = req.session.userid
-    console.log("Entries userID is " + userid)
     const username = req.session.username
     const entry = models.entries.build({
       entry: req.body.entry,
       userId: req.session.userid
     })
 
-    // const entry = req.body.entry;
-    // console.log(req.session.username);
+    entry.save();
+    res.render('gabble-create', {username:username})
     // models.entries.find({
     //   where: {
     //     entry: entry
-
-    entry.save();
-    res.render('gabble-create', {username:username})
+    //   }
+    // }).then(function(entry) {
+    //   if(entry) {
+    //     console.log(entry);
+    //   }
+    // })
 
   })
 //Gabble-Create end
