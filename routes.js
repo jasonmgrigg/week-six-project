@@ -24,8 +24,6 @@ router.get('/login-create', function(req, res) {
   })
 })
 
-
-
 router.post('/users', function(req, res) {
   var user = models.users.build ({
     username: req.body.username,
@@ -35,8 +33,7 @@ router.post('/users', function(req, res) {
   let username = req.session.username
   console.log("Your Session Username is " + username);
   user.save();
-  res.render('welcome', {username:username})
-  // res.redirect('/')
+  res.render('gabble-create', {username:username})
 })
 //End of username and password creation
 
@@ -61,15 +58,13 @@ router.post('/', function(req, res){
       req.session.userid = user.dataValues.id;
       let username = req.session.username;
       let userid = req.session.userid;
-      console.log("ID is " + req.session.userid)
-      console.log("username is " + username)
-      res.render('gabble-create', {username:username})
+      res.redirect('/gabble-create')
+      console.log("First Log-In");
     }
     else{
       res.render('login-create');
     }
   })
-  // console.log("Your username is " + username);
 })
 //End of username authentication
 
@@ -77,8 +72,9 @@ router.post('/', function(req, res){
 
 //Start of gabble entry section
 router.get('/gabble-create', function(req, res) {
-  models.users.findAll().then(function(entry) {
-    res.render('gabble-create', {entry: entry})
+  const username = req.session.username
+  models.entries.findAll().then(function(entry) {
+    res.render('gabble-create', {username:username, entry: entry})
     console.log("Gabble Entry")
   })
 })
@@ -90,19 +86,9 @@ router.get('/gabble-create', function(req, res) {
       entry: req.body.entry,
       userId: req.session.userid
     })
-
+    console.log("Gabble Sent");
     entry.save();
-    res.render('gabble-create', {username:username})
-    // models.entries.find({
-    //   where: {
-    //     entry: entry
-    //   }
-    // }).then(function(entry) {
-    //   if(entry) {
-    //     console.log(entry);
-    //   }
-    // })
-
+    res.redirect('/gabble-create')
   })
 //Gabble-Create end
 

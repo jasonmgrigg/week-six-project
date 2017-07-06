@@ -27,9 +27,11 @@
       </form>
       <h3>Gabbles</h3>
       <ul>
-        {{#entries}}
-          <li>{{entry}}</li>
-        {{/entries}}
+        {{#entry}}
+        <form class="" action="/likes" method="post">
+          <li>{{entry}}<button type="submit" name="likebutton">Like</button></li>
+        {{/entry}}
+      </form>
       </ul>
     </body>
 </html>
