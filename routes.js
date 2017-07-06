@@ -73,18 +73,22 @@ router.post('/', function(req, res){
 //Start of gabble entry section
 router.get('/gabble-create', function(req, res) {
   const username = req.session.username
-  models.entries.findAll().then(function(entry) {
-    res.render('gabble-create', {username:username, entry: entry})
+  models.entries.findAll().then(function(entry, date) {
+    res.render('gabble-create', {username: username, entry: entry, date: date})
     console.log("Gabble Entry")
   })
 })
 
   router.post('/entries', function(req, res){
     const userid = req.session.userid
+    const date = req.body.date
     const username = req.session.username
+    const title = req.body.title
     const entry = models.entries.build({
       entry: req.body.entry,
-      userId: req.session.userid
+      userId: req.session.userid,
+      date: req.body.date,
+      title: req.body.title
     })
     console.log("Gabble Sent");
     entry.save();
@@ -92,4 +96,20 @@ router.get('/gabble-create', function(req, res) {
   })
 //Gabble-Create end
 
+//Likes section
+router.post('/likes', function (req,res) {
+   const likes = models.likes.build({
+         entryId: req.body.likeButton,
+         userId: req.session.userid
+   });
+
+   likes.save().then(function (newLike) {
+      console.log(newLike);
+   });
+
+
+});
+
+
+//End of Likes section
 module.exports = router;

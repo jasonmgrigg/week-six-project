@@ -20,18 +20,24 @@
       <h1>Welcome {{username}}<h1>
       <h3>Use the below form to create a new entry:</h3>
       <form class="" action="/entries" method="post">
+        <input type="text" name="title" value="" placeholder="Gabble Title">
         <input type="text" name="entry" value="" placeholder="Gabble Entry">
-
-
+        <input type="date" name="date" value="" placeholder="Date">
         <button type="submit" name="button">Submit Entry</button>
       </form>
       <h3>Gabbles</h3>
       <ul>
         {{#entry}}
-        <form class="" action="/likes" method="post">
-          <li>{{entry}}<button type="submit" name="likebutton">Like</button></li>
-        {{/entry}}
-      </form>
+        <li class="title">Gab Title: {{title}}</li>
+        <li class="entry">Gab Entry: {{entry}}</li>
+        <li class="date">Gab Date: {{date}}</li>
+        <li class="userId">Gab User: {{username}}</li>
+        <br>
       </ul>
+      <form class="likeForm" method="POST" action= "/likes">
+          <input type="submit" class="likeButtons" name="likeButton" value="{{id}}"> LIKE </input>
+      </form>
+      {{/entry}}
+
     </body>
 </html>

@@ -2,12 +2,12 @@
 module.exports = function(sequelize, DataTypes) {
   var likes = sequelize.define('likes', {
     like: DataTypes.BOOLEAN
-  }, {
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
-    }
-  });
+  }, {});
+  likes.associate = function(models) {
+    likes.belongsTo(models.entries,{as:'entries', foreignKey: 'userId'})
+    likes.belongsTo(models.users,{as:'users', foreignKey: 'entryId'})
+
+
+  }
   return likes;
 };

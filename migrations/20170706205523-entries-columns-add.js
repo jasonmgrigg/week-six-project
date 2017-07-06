@@ -4,14 +4,11 @@ module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.addColumn(
       'entries',
-      'userId',
+      'date',
       {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'users',
-          key: 'id'
-        }
+        type: Sequelize.DATE,
+        allowNull: true,
+
       }
     )
   },
@@ -19,7 +16,7 @@ module.exports = {
   down: function (queryInterface, Sequelize) {
     return queryInterface.removeColumn(
       'entries',
-      'userId'
+      'date'
     )
   }
-};
+  };
