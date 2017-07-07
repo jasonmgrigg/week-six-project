@@ -97,19 +97,36 @@ router.get('/gabble-create', function(req, res) {
 //Gabble-Create end
 
 //Likes section
+router.get('/likedisplay', function(req, res) {
+  console.log("router.get for likes is working")
+  const username = req.session.username
+  const userId = req.session.userid
+  const entryId = req.body.likeButton
+  models.likes.findAll().then(function(likes) {
+    res.render('likedisplay', {username: username, userId: userId, entryId: entryId})
+  })
+})
+
 router.post('/likes', function (req,res) {
   console.log("Your Like Session is " + req.body.likeButton)
+  const username = req.session.username
    const userId = req.session.userid
    const entryId = req.body.likeButton
    const likes = models.likes.build({
          entryId: req.body.likeButton,
          userId: req.session.userid
    });
+//Likes is posting to the database!!!!  Whoo hoo
+
 
    likes.save().then(function (newLike) {
-      console.log(newLike);
    });
+   res.redirect('/likedisplay')
 });
 //End of Likes section
 
+//Likes Display
+
+
+//End of Likes Display
 module.exports = router;

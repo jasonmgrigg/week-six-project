@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <header>
+      <h1>Your username is {{username}}.</h1>
+    <nav>
+      <ul>
+        <li class="nav-item1">
+          <a href="./">Log In</a></li>
+        <li class="nav-item2">
+          <a href="./login-create">Create Login</a></li>
+        <li class="nav-item3">
+          <a href="./gabble-create">Create Gabble</a></li>
+          <li class="nav-item4">
+            <a href="./">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+  </head>
+    <body>
+      <h1>GABBLE!!!</h1>
+      <h3>Check out the likes!</h3>
+      <h3>Likes</h3>
+      <ul>
+        {{#likes}}
+        <li class="title">Liked By: {{userId}}</li>
+        {{/likes}}
+
+    </body>
+</html>

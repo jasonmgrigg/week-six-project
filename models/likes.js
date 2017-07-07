@@ -4,8 +4,8 @@ module.exports = function(sequelize, DataTypes) {
     like: DataTypes.BOOLEAN
   }, {});
   likes.associate = function(models) {
+    likes.belongsTo(models.entries,{as:'users', foreignKey: 'entryId'})
     likes.belongsTo(models.entries,{as:'entries', foreignKey: 'userId'})
-    likes.belongsTo(models.users,{as:'users', foreignKey: 'entryId'})
 
 
   }
