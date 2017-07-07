@@ -11,6 +11,8 @@
           <a href="./login-create">Create Login</a></li>
         <li class="nav-item3">
           <a href="./gabble-create">Create Gabble</a></li>
+          <li class="nav-item4">
+            <a href="./">Logout</a></li>
       </ul>
     </nav>
   </header>
@@ -35,7 +37,7 @@
         <br>
       </ul>
       <form class="likeForm" method="POST" action= "/likes">
-          <input type="submit" class="likeButtons" name="likeButton" value="{{id}}"> LIKE </input>
+          <input type="submit" name="likeButton" value="{{id}}"> LIKE </input>
       </form>
       {{/entry}}
 

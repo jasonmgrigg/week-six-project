@@ -98,6 +98,9 @@ router.get('/gabble-create', function(req, res) {
 
 //Likes section
 router.post('/likes', function (req,res) {
+  console.log("Your Like Session is " + req.body.likeButton)
+   const userId = req.session.userid
+   const entryId = req.body.likeButton
    const likes = models.likes.build({
          entryId: req.body.likeButton,
          userId: req.session.userid
@@ -106,10 +109,7 @@ router.post('/likes', function (req,res) {
    likes.save().then(function (newLike) {
       console.log(newLike);
    });
-
-
 });
-
-
 //End of Likes section
+
 module.exports = router;
