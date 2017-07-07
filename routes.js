@@ -103,7 +103,7 @@ router.get('/likedisplay', function(req, res) {
   const userId = req.session.userid
   const entryId = req.body.likeButton
   models.likes.findAll().then(function(likes) {
-    res.render('likedisplay', {username: username, userId: userId, entryId: entryId})
+    res.render('likedisplay', {likes: likes, username: username, userId: userId, entryId: entryId})
   })
 })
 
@@ -113,6 +113,7 @@ router.post('/likes', function (req,res) {
    const userId = req.session.userid
    const entryId = req.body.likeButton
    const likes = models.likes.build({
+         like: true,
          entryId: req.body.likeButton,
          userId: req.session.userid
    });
