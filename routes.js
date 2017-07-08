@@ -29,17 +29,25 @@ router.post('/users', function(req, res) {
     username: req.body.username,
     password: req.body.password
   })
-  req.session.username = req.body.username;
-  let username = req.session.username
-  console.log("Your Session Username is " + username);
-  user.save();
-  res.render('gabble-create', {username:username})
+  user.save()
+  .then(function(user){
+    if(user){
+      req.session.username = req.body.username;
+      req.session.userid = user.dataValues.id;
+      let username = req.session.username;
+      let userId = req.session.userid;
+      res.redirect('/gabble-create')
+      console.log("Your userId is " + userId);
+    }
+  })
 })
 //End of username and password creation
 
 
 
 //Start of username authentication section
+
+
 router.get('/', function(req, res) {
   res.render('login')
 });
@@ -57,9 +65,9 @@ router.post('/', function(req, res){
       req.session.username = req.body.username;
       req.session.userid = user.dataValues.id;
       let username = req.session.username;
-      let userid = req.session.userid;
+      let userId = req.session.userid;
       res.redirect('/gabble-create')
-      console.log("First Log-In");
+      console.log("Your userId is " + userId);
     }
     else{
       res.render('login-create');
@@ -106,6 +114,21 @@ router.get('/likedisplay', function(req, res) {
     res.render('likedisplay', {likes: likes, username: username, userId: userId, entryId: entryId})
   })
 })
+
+// router.get('/likedisplay', function(req, res) {
+//   models.likes.findAll({
+//     include: [{
+//         model: models.users,
+//         as: 'entryId'
+//       }]
+//   }).then(function(likes) {
+//     console.log(likes);
+//     res.render('likedisplay', {
+//       likes: likes
+//     })
+//   });
+// });
+
 
 router.post('/likes', function (req,res) {
   console.log("Your Like Session is " + req.body.likeButton)

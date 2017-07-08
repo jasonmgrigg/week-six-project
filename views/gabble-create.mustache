@@ -30,15 +30,15 @@
       <h3>Gabbles</h3>
       <ul>
         {{#entry}}
+        <form class="likeForm" method="POST" action= "/likes">
+            <input type="submit" name="likeButton" value="{{userId}}"> LIKE </input>
+        </form>
         <li class="title">Gab Title: {{title}}</li>
         <li class="entry">Gab Entry: {{entry}}</li>
         <li class="date">Gab Date: {{date}}</li>
         <li class="userId">Gab User: {{username}}</li>
         <br>
       </ul>
-      <form class="likeForm" method="POST" action= "/likes">
-          <input type="submit" name="likeButton" value="{{userId}}"> LIKE </input>
-      </form>
       {{/entry}}
 
     </body>
