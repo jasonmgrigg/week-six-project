@@ -5,18 +5,6 @@ const session = require('express-session');
 const parseurl = require('parseurl');
 
 
-
-//Start of first index page rendering
-// router.get('/', function(req, res) {
-//   models.users.findAll().then(function(users) {
-//   res.render('index', {users: users})
-//   })
-// })
-//End of first index page rendering
-
-
-
-
 //Start of username and password creation section
 router.get('/login-create', function(req, res) {
   models.users.findAll().then(function(users) {
@@ -46,8 +34,6 @@ router.post('/users', function(req, res) {
 
 
 //Start of username authentication section
-
-
 router.get('/', function(req, res) {
   res.render('login')
 });
@@ -98,37 +84,23 @@ router.get('/gabble-create', function(req, res) {
       date: req.body.date,
       title: req.body.title
     })
-    console.log("Gabble Sent");
     entry.save();
+    console.log("Your entry is " + entry);
     res.redirect('/gabble-create')
   })
 //Gabble-Create end
 
 //Likes section
 router.get('/likedisplay', function(req, res) {
-  console.log("router.get for likes is working")
   const username = req.session.username
   const userId = req.session.userid
   const entryId = req.body.likeButton
-  models.likes.findAll().then(function(likes) {
-    res.render('likedisplay', {likes: likes, username: username, userId: userId, entryId: entryId})
+  const entry = req.body.entry
+  models.likes.findAll().then(function(likes, entries) {
+    res.render('likedisplay', {likes: likes, username: username, userId: userId, entryId: entryId, entry: entry})
+    console.log("your entry is " + entry)
   })
 })
-
-// router.get('/likedisplay', function(req, res) {
-//   models.likes.findAll({
-//     include: [{
-//         model: models.users,
-//         as: 'entryId'
-//       }]
-//   }).then(function(likes) {
-//     console.log(likes);
-//     res.render('likedisplay', {
-//       likes: likes
-//     })
-//   });
-// });
-
 
 router.post('/likes', function (req,res) {
   console.log("Your Like Session is " + req.body.likeButton)
@@ -149,8 +121,4 @@ router.post('/likes', function (req,res) {
 });
 //End of Likes section
 
-//Likes Display
-
-
-//End of Likes Display
 module.exports = router;
